@@ -32,20 +32,24 @@ scaled_time = [ i[ 1 ] for i in scaled_signal ]
 
 weight_df = pd.DataFrame( { 'data' : scaled_weight }, index = scaled_time )
 weight_df.index=pd.to_datetime(weight_df.index)
-
 #print( weight_df )
+
+
+# Burn rate line fitting for Late Sept data
 burn_date = pd.to_datetime( '2022-10-03 00:00:00.000000000', utc = True )
-#print( type( burn_date ) )
-
 burn_weight_df = weight_df[ weight_df.index < burn_date  ]
-print( burn_weight_df )
-x = mdates.date2num( burn_weight_df.index )
-
-burn_coeff = np.polyfit(x, burn_weight_df.data, 1)
-print( burn_coeff )
-
+x_burn = mdates.date2num( burn_weight_df.index )
+burn_coeff = np.polyfit(x_burn, burn_weight_df.data, 1)
 print( "Burn Rate: " + "{rate:.2f}".format( 
         rate = burn_coeff[ 0 ] ) + "lbs / day" )
+
+# Robbing rate line fitting for early Oct data
+rob_date = pd.to_datetime( '2022-10-03 00:00:00.000000000', utc = True )
+rob_weight_df = weight_df[ weight_df.index >= rob_date  ]
+x_rob = mdates.date2num( rob_weight_df.index )
+rob_coeff = np.polyfit(x_rob, rob_weight_df.data, 1)
+print( "Robbing Rate: " + "{rate:.2f}".format( 
+        rate = rob_coeff[ 0 ] ) + "lbs / day" )
 
 detrended = signal.detrend( scaled_weight )
 
