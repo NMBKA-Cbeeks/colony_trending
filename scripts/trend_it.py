@@ -47,7 +47,10 @@ x_range = np.arange( min( x ), max( x ),
 poly = np.poly1d( trend_coeff )
 df.plot( x = 'Unix_Time', y = 'Scaled_Weight' )
 plt.plot( mdates.num2date( x_range ), poly( x_range ), label = "Trend" )
-plt.legend( ["Data","Trend"] )
+plt.xlabel( 'Date (YYYY-MM-DD)' )
+plt.ylabel( 'Weight (lbs.)' )
+plt.legend( ["Layens","Model"] )
+plt.savefig( "../figs/layens-model.png" )
 plt.show()
 
 
@@ -83,5 +86,8 @@ seasonal_detrended = ( scaled_weight - res.trend ) / lbs_per_bee
 
 seasonal_detrended_df = pd.DataFrame( seasonal_detrended, index = scaled_time )
 seasonal_detrended_df.plot()
-plt.legend( ["Active Foragers"] )
+plt.xlabel( 'Date (YYYY-MM-DD)' )
+plt.ylabel( 'Active Foragers (bees)' )
+plt.legend( ["Layens"] )
+plt.savefig( "../figs/layens-foragers.png" )
 plt.show()
