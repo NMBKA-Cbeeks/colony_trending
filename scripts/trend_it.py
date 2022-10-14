@@ -59,6 +59,15 @@ burn_date = pd.to_datetime( '2022-10-03 00:00:00.000000000', utc = True )
 burn_weight_df = weight_df[ weight_df.index < burn_date  ]
 x_burn = mdates.date2num( burn_weight_df.index )
 burn_coeff = np.polyfit(x_burn, burn_weight_df.data, 1)
+poly_burn = np.poly1d( burn_coeff )
+burn_weight_df.plot()
+plt.plot( mdates.num2date( x_burn ), poly_burn( x_burn ), label = 'Fit' )
+plt.xlabel( 'Date (YYYY-MM-DD)' )
+plt.ylabel( 'Weight (lbs.)' )
+plt.legend( ["Layens","Burn Model"] )
+plt.savefig( "../figs/layens-burn.png" )
+plt.show()
+        
 print( "Burn Rate: " + "{rate:.2f}".format( 
         rate = burn_coeff[ 0 ] ) + "lbs / day" )
 
@@ -67,6 +76,15 @@ rob_date = pd.to_datetime( '2022-10-03 00:00:00.000000000', utc = True )
 rob_weight_df = weight_df[ weight_df.index >= rob_date  ]
 x_rob = mdates.date2num( rob_weight_df.index )
 rob_coeff = np.polyfit(x_rob, rob_weight_df.data, 1)
+poly_rob = np.poly1d( rob_coeff )
+rob_weight_df.plot()
+plt.plot( mdates.num2date( x_rob ), poly_rob( x_rob ), label = 'Fit' )
+plt.xlabel( 'Date (YYYY-MM-DD)' )
+plt.ylabel( 'Weight (lbs.)' )
+plt.legend( ["Layens","Robbing Model"] )
+plt.savefig( "../figs/layens-rob.png" )
+plt.show()
+        
 print( "Robbing Rate: " + "{rate:.2f}".format( 
         rate = rob_coeff[ 0 ] ) + "lbs / day" )
 
@@ -89,5 +107,6 @@ seasonal_detrended_df.plot()
 plt.xlabel( 'Date (YYYY-MM-DD)' )
 plt.ylabel( 'Active Foragers (bees)' )
 plt.legend( ["Layens"] )
+plt.axhline( y = 0, color = 'orange' )
 plt.savefig( "../figs/layens-foragers.png" )
 plt.show()
