@@ -7,6 +7,7 @@ import datetime
 from scipy import signal
 import matplotlib.dates as mdates
 from statsmodels.tsa.seasonal import seasonal_decompose
+from scipy.interpolate import CubicSpline as cspline
 
 lbs_per_bee = 0.00025 * 5
 
@@ -22,6 +23,10 @@ df.Unix_Time = pd.to_datetime(df.Unix_Time, unit='s', utc = True )
 #print( df )
 
 df.plot( x = 'Unix_Time', y = 'Scaled_Weight' )
+plt.xlabel( 'Date (YYYY-MM-DD)' )
+plt.ylabel( 'Weight (lbs.)' )
+plt.legend( [ 'Layens' ] )
+plt.savefig( "../figs/layens-weight.png" )
 plt.show()
 
 
@@ -33,6 +38,17 @@ scaled_time = [ i[ 1 ] for i in scaled_signal ]
 weight_df = pd.DataFrame( { 'data' : scaled_weight }, index = scaled_time )
 weight_df.index=pd.to_datetime(weight_df.index)
 #print( weight_df )
+
+# Create fit of overall trend
+x = mdates.date2num( weight_df.index )
+trend_coeff = np.polyfit(x, weight_df.data, 2)
+x_range = np.arange( min( x ), max( x ), 
+                ( max( x ) - min( x ) ) / 100 )
+poly = np.poly1d( trend_coeff )
+df.plot( x = 'Unix_Time', y = 'Scaled_Weight' )
+plt.plot( mdates.num2date( x_range ), poly( x_range ), label = "Trend" )
+plt.legend( ["Data","Trend"] )
+plt.show()
 
 
 # Burn rate line fitting for Late Sept data
