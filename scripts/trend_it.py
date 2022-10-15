@@ -9,7 +9,7 @@ import matplotlib.dates as mdates
 from statsmodels.tsa.seasonal import seasonal_decompose
 from scipy.interpolate import CubicSpline as cspline
 
-lbs_per_bee = 0.00025 * 5
+lbs_per_bee = 0.00025
 
 colony_file = "../data/Carniolan Layens_combined_readings_2022-10-10T20_33_00.281Z.csv" 
 
