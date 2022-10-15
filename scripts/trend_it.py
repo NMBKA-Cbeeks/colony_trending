@@ -72,7 +72,7 @@ burn_weight_df.plot()
 plt.plot( mdates.num2date( x_burn ), poly_burn( x_burn ), label = 'Fit' )
 plt.xlabel( 'Date (YYYY-MM-DD)' )
 plt.ylabel( 'Weight (lbs.)' )
-plt.legend( ["Layens","Burn Model"] )
+plt.legend( ["Layens","Confinement Model"] )
 plt.savefig( "../figs/layens-burn.png" )
 plt.show()
         
