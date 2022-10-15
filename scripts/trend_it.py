@@ -96,6 +96,10 @@ detrended_df.plot()
 plt.legend( ["detrended"] )
 plt.show()
 
+# Active foragers: these calculations are wrong, just need a
+# place holder for the presentation.  It shoudl kinda be the
+# inverse (the dips in weight).  Need to think about the 
+# correct way to do this -kbf
 res = seasonal_decompose( weight_df, model = 'multiplicative',
                           extrapolate_trend = 'freq',
                           period = 365 )
