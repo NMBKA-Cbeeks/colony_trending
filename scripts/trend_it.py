@@ -45,7 +45,7 @@ trend_coeff = np.polyfit(x, weight_df.data, 2)
 x_range = np.arange( min( x ), max( x ), 
                 ( max( x ) - min( x ) ) / 100 )
 poly = np.poly1d( trend_coeff )
-df.plot( x = 'Unix_Time', y = 'Scaled_Weight' )
+df.plot( x = 'Unix_Time', y = 'Scaled_Weight', color = 'darkorange')
 plt.plot( mdates.num2date( x_range ), poly( x_range ), label = "Trend" )
 plt.xlabel( 'Date (YYYY-MM-DD)' )
 plt.ylabel( 'Weight (lbs.)' )
@@ -53,6 +53,14 @@ plt.legend( ["Layens","Model"] )
 plt.savefig( "../figs/layens-model.png" )
 plt.show()
 
+fig, ax = plt.subplots()
+plt.plot( mdates.num2date( x_range ), poly( x_range ), label = "Model" )
+plt.xlabel( 'Date (YYYY-MM-DD)' )
+plt.ylabel( 'Weight (lbs.)' )
+ax.set_xticklabels( mdates.num2date( x_range ), rotation = 30 ) 
+plt.legend( loc = 'best' )
+plt.savefig( "../figs/layens-model-only.png" )
+plt.show()
 
 # Burn rate line fitting for Late Sept data
 burn_date = pd.to_datetime( '2022-10-03 00:00:00.000000000', utc = True )
