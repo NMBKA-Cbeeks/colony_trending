@@ -104,16 +104,15 @@ detrended_df.plot()
 plt.legend( ["detrended"] )
 plt.show()
 
-# Active foragers: these calculations are wrong, just need a
-# place holder for the presentation.  It shoudl kinda be the
-# inverse (the dips in weight).  Need to think about the 
-# correct way to do this -kbf
+# Active foragers: these calculations still need more work,
+# initial plot  for the presentation.  I need to think a bit more
+# about the dips in weight.  This really shoudl prolly be the inverse
+# over the X-axis of what is there now ... hmmm -kbf
 res = seasonal_decompose( weight_df, model = 'multiplicative',
                           extrapolate_trend = 'freq',
                           period = 365 )
 
 seasonal_detrended = ( scaled_weight - res.trend ) / lbs_per_bee
-
 seasonal_detrended_df = pd.DataFrame( seasonal_detrended, index = scaled_time )
 seasonal_detrended_df.plot()
 plt.xlabel( 'Date (YYYY-MM-DD)' )
